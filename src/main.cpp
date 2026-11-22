@@ -22,23 +22,16 @@ namespace {
 		spdlog::set_default_logger(std::move(log));
 		spdlog::set_pattern("[%H:%M:%S:%e] %v"s);
 
-		logger::info(FMT_STRING("{} v{}"), Project::NAME, Project::Version::NAME);
+		logger::info("{} v{}", Project::NAME, Project::Version::NAME);
 	}
 
 	void InitializeHooking() {
 		logger::trace("Initializing StackFrameOverflow hook...");
+		SKSE::AllocTrampoline(14 * 2);  // one reservation for both write_call hooks (current CommonLib allows a single allocation)
 		StackOverFlowHook::Install();
 		StackOverFlowLogHook::Install();
 	}
 }
-
-SKSEPluginInfo(
-	.Version = {Project::Version::MAJOR, Project::Version::MINOR, Project::Version::PATCH},
-	.Name = "TBD",
-	.Author = "TBD",
-	.SupportEmail = "TBD",
-	.StructCompatibility = SKSE::StructCompatibility::Independent,
-)
 
 extern "C" DLLEXPORT const char* APIENTRY GetPluginVersion()
 {

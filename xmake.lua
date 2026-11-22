@@ -5,7 +5,7 @@ includes(os.getenv("CommonLibSSE-NG"))
 
 set_project("RecursionFPSFix")
 set_version("1.2.0")
-set_license("MIT")
+set_license("GPL-3.0")
 
 set_languages("c++23")
 set_warnings("allextra")
